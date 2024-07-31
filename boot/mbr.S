@@ -28,12 +28,12 @@ SECTION MBR vstart=0x7c00
     mov byte [gs:0x06],'B'
     mov byte [gs:0x07],0xA4
 
-    mov byte [gs:0x02],'R'
-    mov byte [gs:0x03],0xA4
+    mov byte [gs:0x08],'R'
+    mov byte [gs:0x09],0xA4
 
     mov eax,LOADER_START_SECTOR
     mov bx,LOADER_BASE_ADDR
-    mov cx,1
+    mov cx,4
     call rd_disk_m_16
 
     jmp LOADER_BASE_ADDR
@@ -91,7 +91,7 @@ rd_disk_m_16:
     jnz .not_ready
 
  ;第 5 步:从 0x1f0 端口读数据
-    mov ax,di
+    mov ax,di70
     mov dx,256
     mul dx
     mov cx,ax
