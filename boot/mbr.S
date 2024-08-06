@@ -36,7 +36,7 @@ SECTION MBR vstart=0x7c00
     mov cx,4
     call rd_disk_m_16
 
-    jmp LOADER_BASE_ADDR
+    jmp LOADER_BASE_ADDR +0x300
 
 rd_disk_m_16:
 ; eax=LBA 扇区号
@@ -91,7 +91,7 @@ rd_disk_m_16:
     jnz .not_ready
 
  ;第 5 步:从 0x1f0 端口读数据
-    mov ax,di70
+    mov ax,di
     mov dx,256
     mul dx
     mov cx,ax

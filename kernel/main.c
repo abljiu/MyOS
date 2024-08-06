@@ -1,3 +1,5 @@
-//
-// Created by abljiu on 24-8-5.
-//
+int main(void)
+{
+    while (1);
+    return 0;
+}
