@@ -219,7 +219,7 @@ void *malloc_page(enum pool_flags pf, uint32_t pg_cnt)
    struct pool *mem_pool = pf & PF_KERNEL ? &kernel_pool : &user_pool;
 
    /* 因为虚拟地址是连续的,但物理地址可以是不连续的,所以逐个做映射*/
-   while (cnt-- > 0)v
+   while (cnt-- > 0)
    {
       void *page_phyaddr = palloc(mem_pool);
       if (page_phyaddr == NULL)
