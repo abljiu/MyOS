@@ -93,4 +93,4 @@ VECTOR 0x2b,ZERO ;保留
 VECTOR 0x2c,ZERO ;ps/2 鼠标
 VECTOR 0x2d,ZERO ;fpu 浮点单元异常
 VECTOR 0x2e,ZERO ;硬盘
-ECTOR 0x2f,ZERO ;保留
+VECTOR 0x2f,ZERO ;保留
