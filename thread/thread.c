@@ -3,9 +3,11 @@
 #include "string.h"
 #include "global.h"
 #include "memory.h"
+
 #include "debug.h"
 #include "interrupt.h"
 #include "print.h"
+#include "../userprog/process.h"
 
 #define PG_SIZE 4096
 
@@ -17,7 +19,7 @@ static struct list_elem *thread_tag; // 用于保存队列中的线程结点
 extern void switch_to(struct task_struct *cur, struct task_struct *next);
 
 /* 获取当前线程pcb指针 */
-struct task_struct *running_thread()    
+struct task_struct *running_thread()
 {
     uint32_t esp;
     asm("mov %%esp, %0" : "=g"(esp));
@@ -46,8 +48,8 @@ void thread_create(struct task_struct *pthread, thread_func function, void *func
     pthread->self_kstack = (uint32_t *)((int)(pthread->self_kstack) - sizeof(struct thread_stack));
     struct thread_stack *kthread_stack = (struct thread_stack *)pthread->self_kstack; // 我们已经留出了线程栈的空间，现在将栈顶变成一个线程栈结构体
                                                                                       // 指针，方便我们提前布置数据达到我们想要的目的
-    kthread_stack->eip = kernel_thread;                                               // 我们将线程的栈顶指向这里，并ret，就能直接跳入线程启动器开始执行。
-                                                                                      // 为什么这里我不能直接填传入进来的func，这也是函数地址啊，为什么还非要经过一个启动器呢？其实是可以不经过线程启动器的
+    kthread_stack->eip = kernel_thread; // 我们将线程的栈顶指向这里，并ret，就能直接跳入线程启动器开始执行。
+                                        // 为什么这里我不能直接填传入进来的func，这也是函数地址啊，为什么还非要经过一个启动器呢？其实是可以不经过线程启动器的
 
     // 因为用不着，所以不用初始化这个返回地址kthread_stack->unused_retaddr
     kthread_stack->function = function; // 将线程启动器（thread_start）需要运行的函数地址放入线程栈中
@@ -76,7 +78,7 @@ void init_thread(struct task_struct *pthread, char *name, int prio)
     pthread->pgdir = NULL;                                            // 线程没有自己的地址空间，进程的pcb这一项才有用，指向自己的页表虚拟地址
     pthread->self_kstack = (uint32_t *)((uint32_t)pthread + PG_SIZE); // 本操作系统比较简单，线程不会太大，就将线程栈顶定义为pcb地址
                                                                       //+4096的地方，这样就留了一页给线程的信息（包含管理信息与运行信息）空间
-    pthread->stack_magic = 0x19870916;                                // /定义的边界数字，随便选的数字来判断线程的栈是否已经生长到覆盖pcb信息了
+    pthread->stack_magic = 0x19870916; // /定义的边界数字，随便选的数字来判断线程的栈是否已经生长到覆盖pcb信息了
 }
 
 /* 创建一优先级为prio的线程,线程名为name,线程所执行的函数是function(func_arg) */
@@ -139,6 +141,7 @@ void schedule()
     thread_tag = list_pop(&thread_ready_list);
     struct task_struct *next = elem2entry(struct task_struct, general_tag, thread_tag);
     next->status = TASK_RUNNING;
+    process_activate(next); // 激活任务页表
     switch_to(cur, next);
 }
 
