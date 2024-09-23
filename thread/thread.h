@@ -1,13 +1,13 @@
 #ifndef __THREAD_THREAD_H
 #define __THREAD_THREAD_H
-#include "stdint.h"
+#include "../lib/stdint.h"
 #include "list.h"
 #include "memory.h"
 
 // 定义一种叫thread_fun的函数类型，该类型返回值是空，参数是一个地址(这个地址用来指向自己的参数)。
 // 这样定义，这个类型就能够具有很大的通用性，很多函数都是这个类型
 typedef void thread_func(void *);
-
+typedef int16_t pid_t;
 /* 进程或线程的状态 */
 enum task_status
 {
@@ -78,6 +78,7 @@ struct thread_stack
 struct task_struct
 {
    uint32_t *self_kstack; // 用于存储线程的栈顶位置，栈顶放着线程要用到的运行信息
+   pid_t pid;
    enum task_status status;
    uint8_t priority; // 线程优先级
    char name[16];    // 用于存储自己的线程的名字

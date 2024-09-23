@@ -14,8 +14,8 @@
 void create_user_vaddr_bitmap(struct task_struct *user_prog)
 {
     user_prog->userprog_vaddr.vaddr_start = USER_VADDR_START;
-    uint32_t bitmap_pg_cnt = DIV_ROUND_UP((0xc0000000 - USER_VADDR_START) / PG_SIZE / 8, PG_SIZE);         // 计算出管理用于进程那么大的虚拟地址的
-                                                                                                           // 位图需要多少页的空间来存储（向上取整结果）
+    uint32_t bitmap_pg_cnt = DIV_ROUND_UP((0xc0000000 - USER_VADDR_START) / PG_SIZE / 8, PG_SIZE); // 计算出管理用于进程那么大的虚拟地址的
+                                                                                                   // 位图需要多少页的空间来存储（向上取整结果）
     user_prog->userprog_vaddr.vaddr_bitmap.bits = get_kernel_pages(bitmap_pg_cnt);                         // 申请位图空间
     user_prog->userprog_vaddr.vaddr_bitmap.btmp_bytes_len = (0xc0000000 - USER_VADDR_START) / PG_SIZE / 8; // 计算出位图长度（字节单位）
     bitmap_init(&user_prog->userprog_vaddr.vaddr_bitmap);                                                  // 初始化位图
