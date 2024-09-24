@@ -8,13 +8,14 @@
 #include "console.h"
 #include "debug.h"
 #include "interrupt.h"
+#include "memory.h"
 
 // 用于初始化进程pcb中的用于管理自己虚拟地址空间的虚拟内存池结构体
 void create_user_vaddr_bitmap(struct task_struct *user_prog)
 {
     user_prog->userprog_vaddr.vaddr_start = USER_VADDR_START;
-    uint32_t bitmap_pg_cnt = DIV_ROUND_UP((0xc0000000 - USER_VADDR_START) / PG_SIZE / 8, PG_SIZE); // 计算出管理用于进程那么大的虚拟地址的
-                                                                                                   // 位图需要多少页的空间来存储（向上取整结果）
+    uint32_t bitmap_pg_cnt = DIV_ROUND_UP((0xc0000000 - USER_VADDR_START) / PG_SIZE / 8, PG_SIZE);         // 计算出管理用于进程那么大的虚拟地址的
+                                                                                                           // 位图需要多少页的空间来存储（向上取整结果）
     user_prog->userprog_vaddr.vaddr_bitmap.bits = get_kernel_pages(bitmap_pg_cnt);                         // 申请位图空间
     user_prog->userprog_vaddr.vaddr_bitmap.btmp_bytes_len = (0xc0000000 - USER_VADDR_START) / PG_SIZE / 8; // 计算出位图长度（字节单位）
     bitmap_init(&user_prog->userprog_vaddr.vaddr_bitmap);                                                  // 初始化位图
@@ -96,7 +97,7 @@ void process_execute(void *filename, char *name)
     create_user_vaddr_bitmap(thread);
     thread_create(thread, start_process, filename);
     thread->pgdir = create_page_dir();
-
+    block_desc_init(thread->u_block_desc);
     enum intr_status old_status = intr_disable();
     ASSERT(!elem_find(&thread_ready_list, &thread->general_tag));
     list_append(&thread_ready_list, &thread->general_tag);
