@@ -12,7 +12,7 @@ void bitmap_init(struct bitmap *btmp)
 }
 
 // 用来确定位图的某一位是1，还是0。若是1，返回真（返回的值不一定是1）。否则，返回0。传入两个参数，指向位图的指针，与要判断的位的偏移
-int bitmap_scan_test(struct bitmap *btmp, uint32_t bit_idx)
+bool bitmap_scan_test(struct bitmap *btmp, uint32_t bit_idx)
 {
     uint32_t byte_idx = bit_idx / 8; // 确定要判断的位所在字节的偏移
     uint32_t bit_odd = bit_idx % 8;  // 确定要判断的位在某个字节中的偏移

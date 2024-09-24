@@ -2,8 +2,8 @@
 #include "../lib/user/syscall.h"
 #include "stdint.h"
 #include "print.h"
-#include "../thread/thread.h"
-#include "../device/console.h"
+#include "thread.h"
+#include "console.h"
 #include "string.h"
 
 #define syscall_nr 32

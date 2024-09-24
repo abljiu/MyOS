@@ -3,7 +3,6 @@
 #include "global.h"
 #include "debug.h"
 #include "interrupt.h"
-#include "thread.h"
 
 // 用于初始化信号量，传入参数就是指向信号量的指针与初值
 void sema_init(struct semaphore *psema, uint8_t value)

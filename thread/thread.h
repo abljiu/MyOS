@@ -1,13 +1,13 @@
 #ifndef __THREAD_THREAD_H
 #define __THREAD_THREAD_H
-#include "../lib/stdint.h"
+#include "stdint.h"
 #include "list.h"
 #include "memory.h"
-
+typedef uint16_t pid_t;
 // 定义一种叫thread_fun的函数类型，该类型返回值是空，参数是一个地址(这个地址用来指向自己的参数)。
 // 这样定义，这个类型就能够具有很大的通用性，很多函数都是这个类型
 typedef void thread_func(void *);
-typedef int16_t pid_t;
+
 /* 进程或线程的状态 */
 enum task_status
 {

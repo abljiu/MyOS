@@ -12,7 +12,7 @@ intr_entry_table:                           ;编译器会将之后所有同属�
 section .text                               ;中断处理函数的代码段
 intr%1entry:		                        ; 每个中断处理程序都要压入中断向量号,所以一个中断类型一个中断处理程序，自己知道自己的中断向量号是多少,此标号来表示中断处理程序的入口
     %2                                      ;这一步是根据宏传入参数的变化而变化的
-
+                                            
     push ds                                 ; 以下是保存上下文环境
     push es
     push fs
@@ -78,22 +78,22 @@ VECTOR 0x1c,ZERO
 VECTOR 0x1d,ERROR_CODE
 VECTOR 0x1e,ERROR_CODE
 VECTOR 0x1f,ZERO 
-VECTOR 0x20,ZERO ;时钟中断入口
-VECTOR 0x21,ZERO ;键盘中断入口
-VECTOR 0x22,ZERO ;级联用的
-VECTOR 0x23,ZERO ;串口 2 对应的入口
-VECTOR 0x24,ZERO ;串口 1 对应的入口
-VECTOR 0x25,ZERO ;并口 2 对应的入口
-VECTOR 0x26,ZERO ;软盘对应的入口
-VECTOR 0x27,ZERO ;并口 1 对应的入口
-VECTOR 0x28,ZERO ;实时时钟对应的入口
-VECTOR 0x29,ZERO ;重定向
-VECTOR 0x2a,ZERO ;保留
-VECTOR 0x2b,ZERO ;保留
-VECTOR 0x2c,ZERO ;ps/2 鼠标
-VECTOR 0x2d,ZERO ;fpu 浮点单元异常
-VECTOR 0x2e,ZERO ;硬盘
-VECTOR 0x2f,ZERO ;保留
+VECTOR 0x20,ZERO	;时钟中断对应的入口
+VECTOR 0x21,ZERO	;键盘中断对应的入口
+VECTOR 0x22,ZERO	;级联用的
+VECTOR 0x23,ZERO	;串口2对应的入口
+VECTOR 0x24,ZERO	;串口1对应的入口
+VECTOR 0x25,ZERO	;并口2对应的入口
+VECTOR 0x26,ZERO	;软盘对应的入口
+VECTOR 0x27,ZERO	;并口1对应的入口
+VECTOR 0x28,ZERO	;实时时钟对应的入口
+VECTOR 0x29,ZERO	;重定向
+VECTOR 0x2a,ZERO	;保留
+VECTOR 0x2b,ZERO	;保留
+VECTOR 0x2c,ZERO	;ps/2鼠标
+VECTOR 0x2d,ZERO	;fpu浮点单元异常
+VECTOR 0x2e,ZERO	;硬盘
+VECTOR 0x2f,ZERO	;保留
 
 ;;;;;;;;;;;;;;;;   0x80号中断   ;;;;;;;;;;;;;;;;
 [bits 32]

@@ -1,14 +1,13 @@
 #include "process.h"
-#include "../thread/thread.h"
-#include "../kernel/global.h" //定义了PG_SIZE
-#include "../kernel/memory.h"
-#include "../lib/kernel/bitmap.h"
-#include "../lib/string.h"
+#include "thread.h"
+#include "global.h" //定义了PG_SIZE
+#include "memory.h"
+#include "bitmap.h"
+#include "string.h"
 #include "tss.h"
-#include "../device/console.h"
-#include "../kernel/debug.h"
-#include "../kernel/interrupt.h"
-#include "../kernel/memory.h"
+#include "console.h"
+#include "debug.h"
+#include "interrupt.h"
 
 // 用于初始化进程pcb中的用于管理自己虚拟地址空间的虚拟内存池结构体
 void create_user_vaddr_bitmap(struct task_struct *user_prog)
