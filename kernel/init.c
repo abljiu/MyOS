@@ -9,6 +9,7 @@
 #include "../userprog/tss.h"
 #include "../userprog/syscall-init.h"
 #include "ide.h"
+#include "fs.h"
 
 /*负责初始化所有模块 */
 void init_all()
@@ -23,4 +24,5 @@ void init_all()
    tss_init();      // 初始化tss
    syscall_init();  // 初始化系统调用
    ide_init();      // 初始化硬盘驱动
+   filesys_init();  // 初始化文件系统
 }
